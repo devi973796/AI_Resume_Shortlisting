@@ -1,0 +1,7 @@
+Flask
+Flask-SQLAlchemy
+Werkzeug
+pypdf
+gunicorn
+scikit-learn
+numpy
