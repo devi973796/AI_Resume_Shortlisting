@@ -14,6 +14,7 @@ from matcher import calculate_match
 from skills import find_skills
 from ats_score import calculate_ats
 from report import generate_report
+import os
 app = Flask(__name__)
 
 app.secret_key="resume_ai"
@@ -107,8 +108,9 @@ def upload():
             )
 
 
-            path="uploads/"+filename
+            os.makedirs("uploads", exist_ok=True)
 
+            path="uploads/"+filename
 
             file.save(path)
 
