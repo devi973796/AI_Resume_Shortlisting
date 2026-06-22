@@ -198,7 +198,7 @@ def signup():
         db.session.commit()
 
         return redirect("/login")
-    generate_report(results)
+    
     return render_template("signup.html")
 
 if __name__=="__main__":
