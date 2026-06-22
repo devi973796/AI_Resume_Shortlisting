@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<link rel="stylesheet" href="/static/style.css">
+<title>Upload Resumes</title>
+</head>
+
+<body>
+
+<h1>AI Resume Shortlisting</h1>
+
+<div class="container">
+<div class="card">
+
+<form action="/upload" method="POST" enctype="multipart/form-data">
+
+<label>Job Description</label>
+<textarea name="description" required></textarea>
+
+<label>Upload Resumes</label>
+<input type="file" name="resumes" multiple accept=".pdf" required>
+
+<button type="submit">Analyze Resumes 🚀</button>
+
+</form>
+
+</div>
+</div>
+
+</body>
+</html>

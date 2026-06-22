@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<link rel="stylesheet" href="/static/style.css">
+<input type="text" id="search" onkeyup="searchTable()" placeholder="Search Resume...">
+<title>Results</title>
+</head>
+
+<body>
+
+<h1>🚀 Resume Analysis Report</h1>
+
+<div class="container">
+
+{% for r in results %}
+
+<div class="result-card">
+
+<!-- ⭐ RANK -->
+<h2>
+🏆 Rank {{ loop.index }} - {{ r.name }}
+</h2>
+
+<!-- ⭐ BEST CANDIDATE -->
+{% if loop.index == 1 %}
+<p style="color:green;font-weight:bold;">
+⭐ Best Match Candidate
+</p>
+{% endif %}
+
+<!-- SCORE -->
+<p class="score">
+Match Score: {{ r.score }}%
+</p>
+
+<p>
+ATS Score: {{ r.ats }}/100
+</p>
+
+<!-- ⭐ PROGRESS BAR -->
+<div style="background:#eee;border-radius:10px;overflow:hidden;margin:10px 0;">
+  <div style="width:{{ r.ats }}%;
+              background:linear-gradient(90deg,#00c6ff,#0072ff);
+              padding:6px;
+              color:white;
+              font-weight:bold;">
+    ATS {{ r.ats }}%
+  </div>
+</div>
+
+<!-- MATCHED SKILLS -->
+<h4>Matched Skills</h4>
+
+{% for s in r.matched %}
+<span class="skill" style="background:#22c55e;">
+{{ s }}
+</span>
+{% endfor %}
+
+<!-- MISSING SKILLS -->
+<h4>Missing Skills</h4>
+
+{% for s in r.missing %}
+<span class="skill" style="background:#ef4444;">
+{{ s }}
+</span>
+{% endfor %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>
+<script>
+function searchTable() {
+    let input = document.getElementById("search").value.toLowerCase();
+    let cards = document.getElementsByClassName("result-card");
+
+    for (let i = 0; i < cards.length; i++) {
+        let text = cards[i].innerText.toLowerCase();
+
+        if (text.includes(input)) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+</script>

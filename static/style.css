@@ -1,0 +1,202 @@
+body{
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    color:#333;
+}
+
+/* CENTER CONTAINER */
+.container{
+    width:90%;
+    max-width:1000px;
+    margin:auto;
+    padding-top:40px;
+}
+
+/* GLASS CARD STYLE */
+.card{
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(10px);
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    margin-bottom:20px;
+}
+
+/* HEADINGS */
+h1{
+    text-align:center;
+    color:white;
+    font-size:36px;
+    margin-bottom:20px;
+}
+
+/* INPUTS */
+input,textarea{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    margin-bottom:15px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    font-size:15px;
+}
+
+/* BUTTON */
+button{
+    background: linear-gradient(90deg,#ff512f,#dd2476);
+    color:white;
+    padding:12px 25px;
+    border:none;
+    border-radius:10px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+/* RESULT CARD */
+.result-card{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.15);
+    border-left:6px solid #764ba2;
+}
+
+/* SCORE BADGE */
+.score{
+    color:#27ae60;
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* SKILLS TAG */
+.skill{
+    display:inline-block;
+    padding:6px 12px;
+    margin:5px;
+    border-radius:20px;
+    font-size:13px;
+    background: linear-gradient(90deg,#36d1dc,#5b86e5);
+    color:white;
+}
+.login-wrapper{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.login-card{
+    width:320px;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    text-align:center;
+}
+
+.login-card h2{
+    margin-bottom:15px;
+    color:#333;
+}
+
+.login-card input{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+.login-card button{
+    width:100%;
+    margin-top:10px;
+}
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+}
+
+/* BACKGROUND ANIMATION */
+.login-bg{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(-45deg,#667eea,#764ba2,#6b73ff,#000dff);
+    background-size:400% 400%;
+    animation: gradientBG 8s ease infinite;
+}
+
+@keyframes gradientBG{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+/* LOGIN CARD */
+.login-card{
+    width:340px;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+    text-align:center;
+}
+
+/* TITLE */
+.login-card h2{
+    margin-bottom:5px;
+}
+
+.login-card p{
+    color:gray;
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+/* INPUT BOX */
+.input-box{
+    position:relative;
+    margin-bottom:20px;
+}
+
+.input-box input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    outline:none;
+}
+
+/* BUTTON */
+.login-card button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(90deg,#ff512f,#dd2476);
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.login-card button:hover{
+    transform:scale(1.05);
+}
+.success{
+    color:green;
+    font-size:14px;
+}
+
+.error{
+    color:red;
+    font-size:14px;
+}
