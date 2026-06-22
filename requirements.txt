@@ -1,7 +1,7 @@
 Flask
 Flask-SQLAlchemy
 Werkzeug
-pypdf
+PyPDF2
 gunicorn
 scikit-learn
 numpy
