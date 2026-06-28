@@ -2,40 +2,32 @@
 <html>
 
 <head>
-<link rel="stylesheet" href="/static/style.css">
-<title>Signup</title>
+    <title>Signup</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
 
-<div class="login-bg">
+<div class="login-container">
 
-<div class="login-card">
+    <h2>Create Account</h2>
 
-<h2>Create Account 🚀</h2>
+    <form method="POST">
 
-<p>Sign up to use AI Resume System</p>
+        <input type="text" name="name" placeholder="Name" required>
 
+        <input type="email" name="email" placeholder="Email" required>
 
-<form method="POST">
+        <input type="password" name="password" placeholder="Password" required>
 
-<input type="text" name="name" placeholder="Name" required>
+        <button type="submit">Signup</button>
 
-<input type="email" name="email" placeholder="Email" required>
+    </form>
 
-<input type="password" name="password" placeholder="Password" required>
-
-<button type="submit">Signup</button>
-
-</form>
-
-
-<p style="margin-top:10px;">
-Already have account?
-<a href="/login">Login</a>
-</p>
-
-</div>
+    <p class="bottom-text">
+        Already have an account?
+        <a href="/login">Login</a>
+    </p>
 
 </div>
 

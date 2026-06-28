@@ -1,19 +1,10 @@
-def calculate_ats(match, skills):
-
+def calculate_ats(text, skills):
     score = 0
 
+    text = text.lower()
 
-    # Resume similarity
-    score += match * 0.6
+    for skill in skills:
+        if skill.lower() in text:
+            score += 1   # always number
 
-
-    # Skills
-    score += len(skills) * 5
-
-
-    if score > 100:
-
-        score = 100
-
-
-    return round(score,2)
+    return float(score * 10)

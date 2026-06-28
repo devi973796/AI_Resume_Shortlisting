@@ -2,48 +2,40 @@
 <html>
 
 <head>
-<link rel="stylesheet" href="/static/style.css">
-<title>Login</title>
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
 
+<div class="login-container">
 
-<div class="login-bg">
+    <h2>Welcome Back 👋</h2>
 
-<div class="login-card">
+    <p class="sub-text">Login to continue</p>
 
-<h2>Welcome Back 👋</h2>
+    <form method="POST">
 
-<p>Please login to continue</p>
+        <input type="email" name="email" placeholder="Enter Email" required>
 
+        <input type="password" name="password" placeholder="Enter Password" required>
 
-<form method="POST">
+        <button type="submit">Login</button>
 
-<div class="input-box">
-<input type="email" name="email" required>
-<label>Email</label>
-</div>
+    </form>
 
+    <!-- ERROR MESSAGE -->
+    {% if error %}
+    <p class="error-msg">{{ error }}</p>
+    {% endif %}
 
-<div class="input-box">
-<input type="password" name="password" required>
-<label>Password</label>
-</div>
-
-
-<button type="submit">Login</button>
-
-</form>
-
-</div>
+    <!-- CREATE ACCOUNT LINK -->
+    <p class="bottom-text">
+        Don’t have an account?
+        <a href="/signup">Create Account</a>
+    </p>
 
 </div>
-
 
 </body>
 </html>
-<p>
-New user?
-<a href="/signup">Create account</a>
-</p>

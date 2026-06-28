@@ -1,207 +1,139 @@
-# imports
-
 from flask import Flask, render_template, request, redirect, session
+from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+import os
 
 from database import db
 from models import User
-
-from werkzeug.security import generate_password_hash, check_password_hash
-
-from werkzeug.utils import secure_filename
 
 from resume_parser import extract_text
 from matcher import calculate_match
 from skills import find_skills
 from ats_score import calculate_ats
 from report import generate_report
+
 import os
+
+os.makedirs("uploads", exist_ok=True)
+# ---------------- APP INIT ----------------
 app = Flask(__name__)
+app.secret_key = "secretkey123"
 
-app.secret_key="resume_ai"
-
-
-app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///resume.db"
-
+# ---------------- DATABASE CONFIG ----------------
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db.init_app(app)
 
-
+# ---------------- CREATE TABLES ----------------
 with app.app_context():
-
     db.create_all()
 
 
-
-# HOME
-
+# ---------------- HOME ----------------
 @app.route("/")
 def home():
-
     return redirect("/login")
 
 
-
-# LOGIN ROUTE
-
-@app.route("/login", methods=["GET","POST"])
+# ---------------- LOGIN ----------------
+@app.route("/login", methods=["GET", "POST"])
 def login():
 
-    if request.method=="POST":
+    if request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
 
-        email=request.form["email"]
+        user = User.query.filter_by(email=email).first()
 
-        password=request.form["password"]
+        if not user:
+            return render_template("login.html", error="User not found ❌")
 
+        if not check_password_hash(user.password, password):
+            return render_template("login.html", error="Wrong password ❌")
 
-        user=User.query.filter_by(
-            email=email
-        ).first()
-
-
-        if user and check_password_hash(
-            user.password,
-            password
-        ):
-
-            session["user"]=user.name
-
-            return redirect("/dashboard")
-
+        session["user"] = user.id
+        return redirect("/dashboard")
 
     return render_template("login.html")
 
 
-
-# DASHBOARD
-
-@app.route("/dashboard")
-def dashboard():
-
-    return render_template(
-        "dashboard.html",
-        name=session["user"]
-    )
-
-
-
-# UPLOAD ROUTE
-
-# UPLOAD ROUTE
-
-@app.route("/upload", methods=["GET","POST"])
-def upload():
-    print("UPLOAD ROUTE ENTERED")
-    
-    if request.method=="POST":
-        print("POST REQUEST RECEIVED")
-        job=request.form["description"]
-
-        files=request.files.getlist("resumes")
-        print("FILES:", files)
-        results=[]
-
-
-        for file in files:
-
-            filename=secure_filename(
-                file.filename
-            )
-
-
-            os.makedirs("uploads", exist_ok=True)
-
-            path="uploads/"+filename
-
-            file.save(path)
-
-
-            resume_text=extract_text(path)
-
-
-            score=calculate_match(
-                resume_text,
-                job
-            )
-
-
-            resume_skills=find_skills(
-                resume_text
-            )
-
-
-            job_skills=find_skills(
-                job
-            )
-
-
-            matched=list(
-                set(resume_skills)
-                &
-                set(job_skills)
-            )
-
-
-            missing=list(
-                set(job_skills)
-                -
-                set(resume_skills)
-            )
-
-
-            ats=calculate_ats(
-                score,
-                matched
-            )
-
-            print("RESULT:", filename, score, matched)
-
-            results.append(
-                {
-                    "name": filename,
-                    "score": score,
-                    "ats": ats,
-                    "matched": matched,
-                    "missing": missing
-                }
-            )
-
-            results = sorted(results, key=lambda x: x["ats"], reverse=True)
-
-            return render_template(
-    "result.html",
-    results=results
-)
-            return render_template(
-            "result.html",
-            results=results
-        )
-
-
-    return render_template("upload.html")
-
-@app.route("/signup", methods=["GET","POST"])
+# ---------------- SIGNUP ----------------
+@app.route("/signup", methods=["GET", "POST"])
 def signup():
 
-    if request.method=="POST":
+    if request.method == "POST":
+        name = request.form["name"]
+        email = request.form["email"]
+        password = request.form["password"]
 
-        name=request.form["name"]
-        email=request.form["email"]
-        password=request.form["password"]
+        hashed_pw = generate_password_hash(password)
 
-        hashed=generate_password_hash(password)
-
-        user=User(
-            name=name,
-            email=email,
-            password=hashed
-        )
-
-        db.session.add(user)
+        new_user = User(name=name, email=email, password=hashed_pw)
+        db.session.add(new_user)
         db.session.commit()
 
         return redirect("/login")
-    
+
     return render_template("signup.html")
 
-if __name__=="__main__":
-    app.run(host="0.0.0.0", port=10000)
+
+# ---------------- DASHBOARD ----------------
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
+
+
+# ---------------- UPLOAD FOLDER ----------------
+UPLOAD_FOLDER = "uploads"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+
+# ---------------- UPLOAD ----------------
+job_description = "Software Developer with Python, Flask, SQL skills"
+
+@app.route("/upload", methods=["GET", "POST"])
+def upload():
+    if request.method == "POST":
+
+        files = request.files.getlist("resumes")
+        job = request.form.get("job")
+
+        results = []
+
+        os.makedirs("uploads", exist_ok=True)
+
+        for file in files:
+
+            if file.filename == "":
+                continue
+
+            filename = secure_filename(file.filename)
+
+            path = os.path.join("uploads", filename)
+
+            file.save(path)
+
+            text = extract_text(path)
+
+            skills = find_skills(text)
+            match = calculate_match(text, job)
+            ats = calculate_ats(text, skills)
+
+            results.append({
+                "name": filename,
+                "match": match,
+                "ats": ats,
+                "skills": skills
+            })
+
+        return render_template("result.html", results=results)
+
+    return render_template("upload.html")
+
+# ---------------- RUN ----------------
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=5000, debug=True)

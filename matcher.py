@@ -1,31 +1,7 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
+def calculate_match(resume_text, job_text):
+    resume_words = set(resume_text.lower().split())
+    job_words = set(job_text.lower().split())
 
-from sklearn.metrics.pairwise import cosine_similarity
+    match = len(resume_words & job_words)
 
-
-
-def calculate_match(resume, job):
-
-
-    data = [resume, job]
-
-
-    vectorizer = TfidfVectorizer()
-
-
-    vectors = vectorizer.fit_transform(data)
-
-
-    score = cosine_similarity(
-        vectors[0],
-        vectors[1]
-    )[0][0]
-
-
-    percentage = round(
-        score*100,
-        2
-    )
-
-
-    return percentage
+    return float(match)   # 👈 IMPORTANT

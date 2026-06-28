@@ -20,18 +20,14 @@ skills_list = [
 
 
 def find_skills(text):
+    skills_list = ["python", "java", "sql", "flask", "html", "css"]
 
-    text=text.lower()
+    found = []
 
-
-    found=[]
-
+    text = text.lower()
 
     for skill in skills_list:
-
         if skill in text:
-
             found.append(skill)
 
-
-    return found
+    return found   # 👈 MUST BE LIST
